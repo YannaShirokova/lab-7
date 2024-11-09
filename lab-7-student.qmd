@@ -1,17 +1,30 @@
 ---
 title: "Lab 7: Functions + Fish"
 author: "Yanna Shirokova"
-format: html
+date: "November 9, 2024"
+format: 
+  html:
+    code-fold: true
+    code-tools: true
+    theme: cosmo
+    toc: true
 editor: source
 embed-resources: true
+execute:
+  echo: true
+  error: false
+  message: false
 ---
-
-The goal of this lab is learn more about exploring missing data and writing
-modular code.
 
 ```{r}
 #| label: setup
+#| message: false
+#| warning: false
 
+library(tidyverse)
+library(dplyr)
+
+animal_data <- read_csv(here::here("data", "BlackfootFish.csv"))
 
 ```
 
@@ -42,8 +55,15 @@ measurement errors.
 # You should use `across()`!
 :::
 
+Looks like the only column with missing values is the weight column. It is missing
+1796 obseervations.
 ```{r}
 #| label: find-missing-values
+
+animal_data |>
+  summarize(
+    across(.cols = everything(), .fns = ~ sum(is.na(.)), .names = "{.col}_missing")
+  )
 
 ```
 
