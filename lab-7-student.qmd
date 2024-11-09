@@ -1,6 +1,6 @@
 ---
 title: "Lab 7: Functions + Fish"
-author: "Your name here!"
+author: "Yanna Shirokova"
 format: html
 editor: source
 embed-resources: true
