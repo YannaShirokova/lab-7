@@ -26,7 +26,7 @@ library(dplyr)
 library(ggplot2)
 library(RColorBrewer)
 
-animal_data <- read_csv(here::here("data", "BlackfootFish.csv"))
+fish <- read_csv(here::here("data", "BlackfootFish.csv"))
 
 ```
 
@@ -63,8 +63,10 @@ Looks like the only column with missing values is the weight column. It is missi
 #| label: find-missing-values
 #| message: false
 #| warning: false
+#| echo: true
+#| eval: false
 
-animal_data |>
+fish |>
   summarize(
     across(.cols = everything(), .fns = ~ sum(is.na(.)), .names = "{.col}_missing")
   )
@@ -77,8 +79,10 @@ animal_data |>
 #| label: visual-of-missing-values-over-time
 #| message: false
 #| warning: false
+#| echo: true
+#| eval: false
 
-animal_data |>
+fish |>
   group_by(year, section, trip) |>
   summarize(missing_count = sum(is.na(weight)), .groups = "drop") |>
   mutate(trip = case_when(
@@ -131,6 +135,8 @@ understand the intent of the process. *Additionally, it can make it very difficu
 
 **3. What is the mistake I made in the above rescaling code?**
 
+When calculating the weight, it looks like you did min(length, na.rm = TRUE)
+instead of min(weight, na.rm = TRUE). So, you used length instead of weight.
 
 When you find yourself copy-pasting lines of code, it's time to write a
 function, instead!
@@ -142,6 +148,18 @@ function, instead!
 
 ```{r}
 #| label: write-rescale-function
+#| message: false
+#| warning: false
+#| echo: true
+#| eval: false
+
+# How to use range
+# https://chatgpt.com/share/672fc416-6ad4-8006-b240-a79e325671d6
+
+rescale_01 <- function(x) {
+  get_range<- range(x, na.rm = TRUE)
+  (x - get_range[1]) / (get_range[2] - get_range[1])
+}
 
 ```
 
