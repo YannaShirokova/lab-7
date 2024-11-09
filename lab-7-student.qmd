@@ -23,6 +23,8 @@ execute:
 
 library(tidyverse)
 library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
 
 animal_data <- read_csv(here::here("data", "BlackfootFish.csv"))
 
@@ -59,6 +61,8 @@ Looks like the only column with missing values is the weight column. It is missi
 1796 obseervations.
 ```{r}
 #| label: find-missing-values
+#| message: false
+#| warning: false
 
 animal_data |>
   summarize(
@@ -71,7 +75,30 @@ animal_data |>
 
 ```{r}
 #| label: visual-of-missing-values-over-time
+#| message: false
+#| warning: false
 
+animal_data |>
+  group_by(year, section, trip) |>
+  summarize(missing_count = sum(is.na(weight)), .groups = "drop") |>
+  mutate(trip = case_when(
+    trip == 1 ~ "Trip 1",
+    trip == 2 ~ "Trip 2")) |>
+
+  
+ggplot(aes(x = year, y = missing_count, color = section)) +
+  geom_line() +
+  geom_point() +
+  scale_color_brewer(palette = "Set2") +
+  labs(
+    title = "Missing Data in Mark-Recapture Measurements of Trout Species from the Blackfoot River",
+    x = "Year",
+    subtitle = "Missing Values (Weight)",
+    y = "",
+    color = "Section"
+  ) +
+  facet_wrap(~ trip) +
+  theme_minimal()
 ```
 
 ## Rescaling the Data
