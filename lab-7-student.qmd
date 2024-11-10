@@ -26,6 +26,7 @@ library(dplyr)
 library(ggplot2)
 library(RColorBrewer)
 library(rlang)
+
 fish <- read_csv(here::here("data", "BlackfootFish.csv"))
 
 ```
@@ -63,7 +64,7 @@ Looks like the only column with missing values is the weight column. It is missi
 #| label: find-missing-values
 #| message: false
 #| warning: false
-
+#| echo: true
 
 fish |>
   summarize(
@@ -78,6 +79,7 @@ fish |>
 #| label: visual-of-missing-values-over-time
 #| message: false
 #| warning: false
+#| echo: true
 
 fish |>
   group_by(year, section, trip) |>
@@ -91,9 +93,9 @@ ggplot(aes(x = year, y = missing_count, color = section)) +
   geom_line(size = 1) +
   scale_color_brewer(palette = "Set2") +
   labs(
-    title = "Missing Data in Mark-Recapture Measurements of Trout Species from the Blackfoot River",
+    title = "Missing Data in Measurements of Trout Species (Blackfoot River)",
     x = "Year",
-    subtitle = "Missing Values (Weight)",
+    subtitle = "Weight Values",
     y = "",
     color = "Section") +
   facet_wrap(~ trip) +
@@ -117,6 +119,8 @@ I might write the following `R` code to carry out the rescaling procedure for th
 ```{r}
 #| echo: true
 #| eval: false
+#| warning: false
+#| message: false
 
 fish <- fish |> 
   mutate(length = (length - min(length, na.rm = TRUE)) / 
@@ -145,6 +149,7 @@ function, instead!
 #| label: write-rescale-function
 #| message: false
 #| warning: false
+#| echo: true
 
 # How to use range
 # https://chatgpt.com/share/672fc416-6ad4-8006-b240-a79e325671d6
@@ -191,6 +196,9 @@ above!
 
 ```{r}
 #| label: verify-rescale-function
+#| echo: true
+#| warning: false
+#| message: false
 
 x <- c(1:25, NA)
 
@@ -210,6 +218,9 @@ statement in order to create a `length_scaled` variable.
 
 ```{r}
 #| label: compare-original-with-rescaled-lengths
+#| echo: true
+#| warning: false
+#| message: false
 #| layout-ncol: 2  # Arrange plots in two columns
 #| fig-align: 'center'  # Center-align the figures
 #| fig-subcap: 
@@ -263,6 +274,9 @@ section of R for Data Science!
 
 ```{r}
 #| label: rescale-data-frame-function
+#| echo: true
+#| warning: false
+#| message: false
 
 rescale_columns <- function(df, vars) {
   df |>
@@ -279,7 +293,14 @@ I expect that you carry out this process by calling the `rescale_column()` funct
 
 ```{r}
 #| label: rescale-two-columns
+#| echo: true
+#| warning: false
+#| message: false
 
-rescale_columns(fish, c(weight, length))
+# selected columns so you can see the changes better
+
+fish |>
+  mutate(rescale_columns(fish, c(weight, length))) |>
+  select (length, weight, rescaled_weight, rescaled_length)
 
 ```
