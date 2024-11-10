@@ -88,8 +88,7 @@ fish |>
 
   
 ggplot(aes(x = year, y = missing_count, color = section)) +
-  geom_line() +
-  geom_point() +
+  geom_line(size = 1) +
   scale_color_brewer(palette = "Set2") +
   labs(
     title = "Missing Data in Mark-Recapture Measurements of Trout Species from the Blackfoot River",

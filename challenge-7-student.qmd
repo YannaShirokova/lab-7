@@ -1,16 +1,35 @@
 ---
 title: "Challenge 7: Incorporating Multiple Inputs"
 subtitle: "Functions + Fish"
-author: "Your name here!"
-format: html
+author: "Yanna Shirokova"
+date: "November 9, 2024"
 editor: source
 embed-resources: true
+execute:
+  error: false
+  message: false
+  echo: true
+format: 
+  html:
+    code-fold: true
+    code-tools: true
+    theme: cosmo
+    toc: true
 ---
+
 
 ```{r}
 #| label: setup
+#| message: false
+#| warning: false
+#| echo: true
 
-
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
+library(rlang)
+fish <- read_csv(here::here("data", "BlackfootFish.csv"))
 ```
 
 ## Condition Index
@@ -25,6 +44,12 @@ $$\text{condition index} = \frac{weight}{length^3} \times 100$$
 
 ```{r}
 #| label: transform-data-to-have-correct-units
+#| echo: true
+#| warning: false
+#| message: false
+
+fish <- fish |>
+  mutate(length = length / 10)
 
 ```
 
@@ -42,6 +67,17 @@ If you are struggling with the structure of your function, I would suggest readi
 
 ```{r}
 #| label: function-to-change-impossible-measurements-to-NA
+#| echo: true
+#| warning: false
+#| message: false
+
+# https://chatgpt.com/share/672ff303-7744-8006-88bc-92fa70ab36f0
+# Change to na
+
+clean_measurements <- function(vec, min_value, max_value) {
+  vec[vec < min_value | vec > max_value] <- NA
+  return(vec)
+}
 
 ```
 
@@ -49,6 +85,13 @@ If you are struggling with the structure of your function, I would suggest readi
 
 ```{r}
 #| label: modify-impossible-values-of-length-weight
+#| echo: true
+#| warning: false
+#| message: false
+
+fish <- fish |>
+  mutate(length = clean_measurements(length, 5, 80),
+         weight = clean_measurements(weight, 10, 4000))
 
 ```
 
@@ -62,6 +105,17 @@ dataset and variable names as inputs)!
 
 ```{r}
 #| label: condition-function
+#| echo: true
+#| warning: false
+#| message: false
+
+
+condition <- function(df, weight, length) {
+  df |>
+    mutate(condition_index = (({{ weight }} / ({{ length }}^3)) * 100))
+}
+
+fish <- condition(fish, weight, length)
 
 ```
 
@@ -75,5 +129,25 @@ dataset and variable names as inputs)!
 
 ```{r}
 #| label: condition-indices-over-time
+#| echo: true
+#| warning: false
+#| message: false
+
+fish |> 
+  group_by(species, year, section) |> 
+  summarize(avg_condition_index = mean(condition_index, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(x = year, y = avg_condition_index, color = species)) +
+  geom_line(size = 1) + 
+  scale_color_brewer(palette = "Set2") +
+  labs(
+    title = "Tracking Health of Trout Species in Johnsrud vs ScottyBrown 
+    Sections of the Blackfoot River, Montana",
+    x = "Year",
+    subtitle = "Condition Index",
+    y = "",
+    color = "Species"
+  ) +
+  facet_wrap(~ section) +
+  theme_minimal()
 
 ```
