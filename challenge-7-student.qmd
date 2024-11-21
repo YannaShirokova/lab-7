@@ -74,10 +74,38 @@ If you are struggling with the structure of your function, I would suggest readi
 # https://chatgpt.com/share/672ff303-7744-8006-88bc-92fa70ab36f0
 # Change to na
 
+# Growing: It looks like you are checking multiple conditions in your [ ]. 
+# Perhaps case_when() is a better tool for the job?
+# Where are your function checks? What types of inputs does your function expect?
+
+# Reflection: I changed my function so it's using case_when since I was 
+# checking multiple conditions. This makes it easier to read and the code 
+# more clear. I also added the stopifnot() to check that my input types are
+# of the type I expect them to be. This is really important because if I get 
+# passed the wrong types, my function would not work as expected/ error.  
+
+# old
 clean_measurements <- function(vec, min_value, max_value) {
   vec[vec < min_value | vec > max_value] <- NA
   return(vec)
 }
+
+
+# fixed
+clean_measurements <- function(vec, min_value, max_value) {
+  stopifnot(is.numeric(vec), 
+            is.numeric(min_value), 
+            is.numeric(max_value), 
+            min_value <= max_value)
+  
+  vec <- case_when(
+    vec < min_value ~ NA,
+    vec > max_value ~ NA,
+    TRUE ~ vec
+  )
+  return(vec)
+}
+
 
 ```
 
