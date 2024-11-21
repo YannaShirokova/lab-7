@@ -3487,7 +3487,7 @@ Warning
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Rescaled Values of Fish Length (mm)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4000</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell quarto-layout-panel" data-layout-align="center" data-layout-ncol="2">
+<div class="cell quarto-layout-panel" data-layout-ncol="2" data-layout-align="center">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
@@ -3556,7 +3556,7 @@ Tip
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reflection: At first, I used the pipe (|&gt;) to pass df to mutate(). </span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># While it worked, I changed it to explicitly include df for better clarity </span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># and consistency in the function. There is just no need to pipe it in, </span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># it is moree direct this way and easier to read!</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># it is more direct this way and easier to read!</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>rescale_columns <span class="ot">&lt;-</span> <span class="cf">function</span>(df, vars) {</span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(df, <span class="fu">across</span>(<span class="at">.cols =</span> {{ vars }}, <span class="at">.fns =</span> rescale_01, <span class="at">.names =</span> <span class="st">&quot;rescaled_{.col}&quot;</span>))</span>
@@ -3585,10 +3585,10 @@ Warning
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Growing: Do you need to specify the fish dataset in your rescale_columns() </span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># function when you use the pipe?</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Reflection: At first, I used the pipe (|&gt;) to pass df to mutate(). </span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># While it worked, I changed it to explicitly include df for better clarity </span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Reflection: At first, I used the pipe (|&gt;) to pass fish and I had it in rescale_columns. </span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># While it worked, I changed it to explicitly include fish for better clarity </span></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># and consistency in the function. There is just no need to pipe it in, </span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># it is moree direct this way and easier to read!</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># it is more direct this way and easier to read!</span></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="fu">rescale_columns</span>(fish, <span class="fu">c</span>(weight, length))) <span class="sc">|&gt;</span></span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span> (length, weight, rescaled_weight, rescaled_length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4373,7 +4373,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb15-300"><a href="#cb15-300" aria-hidden="true" tabindex="-1"></a><span class="co"># Reflection: At first, I used the pipe (|&gt;) to pass df to mutate(). </span></span>
 <span id="cb15-301"><a href="#cb15-301" aria-hidden="true" tabindex="-1"></a><span class="co"># While it worked, I changed it to explicitly include df for better clarity </span></span>
 <span id="cb15-302"><a href="#cb15-302" aria-hidden="true" tabindex="-1"></a><span class="co"># and consistency in the function. There is just no need to pipe it in, </span></span>
-<span id="cb15-303"><a href="#cb15-303" aria-hidden="true" tabindex="-1"></a><span class="co"># it is moree direct this way and easier to read!</span></span>
+<span id="cb15-303"><a href="#cb15-303" aria-hidden="true" tabindex="-1"></a><span class="co"># it is more direct this way and easier to read!</span></span>
 <span id="cb15-304"><a href="#cb15-304" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-305"><a href="#cb15-305" aria-hidden="true" tabindex="-1"></a>rescale_columns <span class="ot">&lt;-</span> <span class="cf">function</span>(df, vars) {</span>
 <span id="cb15-306"><a href="#cb15-306" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(df, <span class="fu">across</span>(<span class="at">.cols =</span> {{ vars }}, <span class="at">.fns =</span> rescale_01, <span class="at">.names =</span> <span class="st">&quot;rescaled_{.col}&quot;</span>))</span>
@@ -4398,10 +4398,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb15-327"><a href="#cb15-327" aria-hidden="true" tabindex="-1"></a><span class="co"># Growing: Do you need to specify the fish dataset in your rescale_columns() </span></span>
 <span id="cb15-328"><a href="#cb15-328" aria-hidden="true" tabindex="-1"></a><span class="co"># function when you use the pipe?</span></span>
 <span id="cb15-329"><a href="#cb15-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-330"><a href="#cb15-330" aria-hidden="true" tabindex="-1"></a><span class="co"># Reflection: At first, I used the pipe (|&gt;) to pass df to mutate(). </span></span>
-<span id="cb15-331"><a href="#cb15-331" aria-hidden="true" tabindex="-1"></a><span class="co"># While it worked, I changed it to explicitly include df for better clarity </span></span>
+<span id="cb15-330"><a href="#cb15-330" aria-hidden="true" tabindex="-1"></a><span class="co"># Reflection: At first, I used the pipe (|&gt;) to pass fish and I had it in rescale_columns. </span></span>
+<span id="cb15-331"><a href="#cb15-331" aria-hidden="true" tabindex="-1"></a><span class="co"># While it worked, I changed it to explicitly include fish for better clarity </span></span>
 <span id="cb15-332"><a href="#cb15-332" aria-hidden="true" tabindex="-1"></a><span class="co"># and consistency in the function. There is just no need to pipe it in, </span></span>
-<span id="cb15-333"><a href="#cb15-333" aria-hidden="true" tabindex="-1"></a><span class="co"># it is moree direct this way and easier to read!</span></span>
+<span id="cb15-333"><a href="#cb15-333" aria-hidden="true" tabindex="-1"></a><span class="co"># it is more direct this way and easier to read!</span></span>
 <span id="cb15-334"><a href="#cb15-334" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-335"><a href="#cb15-335" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="fu">rescale_columns</span>(fish, <span class="fu">c</span>(weight, length))) <span class="sc">|&gt;</span></span>
 <span id="cb15-336"><a href="#cb15-336" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span> (length, weight, rescaled_weight, rescaled_length)</span>
