@@ -286,13 +286,6 @@ section of R for Data Science!
 # and consistency in the function. There is just no need to pipe it in, 
 # it is moree direct this way and easier to read!
 
-# Old 
-rescale_columns <- function(df, vars) {
-  df |>
-    mutate(across(.cols = {{ vars }}, .fns = rescale_01, .names = "rescaled_{.col}"))
-}
-
-# Fixed
 rescale_columns <- function(df, vars) {
     mutate(df, across(.cols = {{ vars }}, .fns = rescale_01, .names = "rescaled_{.col}"))
 }
@@ -313,8 +306,15 @@ I expect that you carry out this process by calling the `rescale_column()` funct
 
 # selected columns so you can see the changes better
 
-fish |>
-  mutate(rescale_columns(fish, c(weight, length))) |>
+# Growing: Do you need to specify the fish dataset in your rescale_columns() 
+# function when you use the pipe?
+
+# Reflection: At first, I used the pipe (|>) to pass df to mutate(). 
+# While it worked, I changed it to explicitly include df for better clarity 
+# and consistency in the function. There is just no need to pipe it in, 
+# it is moree direct this way and easier to read!
+
+mutate(rescale_columns(fish, c(weight, length))) |>
   select (length, weight, rescaled_weight, rescaled_length)
 
 ```
